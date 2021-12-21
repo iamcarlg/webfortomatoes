@@ -1,0 +1,99 @@
+
+<?php
+    echo "<h1><strong><center>"; echo "Liste des lieux et services proposés"; echo "</center></strong></h1>";
+
+    echo "<br>";
+    
+    // S'il y a une actualité dans la table et que cette dernière n'est pas nulle
+    if($lie != NULL) {
+
+        // Boucle de parcours de toutes les actualités qui sont activées dans la table
+
+
+        ?>
+
+        <div class = 'container' style = "width:100%;">
+
+        <table class ="table table-dark table-hover">
+
+        <thead>
+
+            <tr >
+                <th><strong>Nom du lieu</strong></th>
+                <th><strong>Adresse du lieu</strong></th>
+                <th><strong>Services proposés</strong></th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        <?php
+
+        foreach($lie as $lieu){
+
+            if(!isset($traite[$lieu['lie_nom']])){
+                
+                $lie_id=$lieu["lie_nom"];
+
+                echo "<tr scope = 'col'>";
+                    echo "<td>"; echo $lieu['lie_nom']; echo "</td>";
+                    
+                    echo "<td>"; 
+
+                        if($lieu['lie_adresse'] == NULL){
+                            echo "Aucune adresse disponible";
+                            
+                        }
+                        echo $lieu['lie_adresse']; 
+                    
+                    echo "</td>";
+
+                    echo "<td>"; 
+                    
+                    foreach($lie as $ser){
+                        if($lieu['ser_type'] == NULL){
+                            echo "Aucun service proposé disponible";
+                            break;
+                        }else{
+                            if(strcmp($lie_id, $ser['lie_nom']) == 0){
+                                echo $ser['ser_type'];  echo "<br>";
+
+                            }
+                        }
+                    }
+
+                    echo '</td>';
+                    // Conservation du traitement de l'animation
+                    $traite[$lieu["lie_nom"]]=1;
+                    
+
+                echo "</tr>";
+            }
+
+        }
+
+        echo "<tbody>";
+        echo "</table>";
+    
+        echo "<br>";
+        echo "<br>";
+            
+        echo "</div>";
+
+        
+
+        }
+
+    else {
+        echo "<br />";
+        echo "<div style = 'border: 1px solid black; padding : 20px; margin : 10px;'>";
+            echo "<h2 style = 'font-size:30px; text-align : center; '>Aucun lieu disponible pour l'instant !</h2>";
+
+        echo "</div>";
+
+        echo "<br>";
+        echo "<br>";
+
+    }
+?>
